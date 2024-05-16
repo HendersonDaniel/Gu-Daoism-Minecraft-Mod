@@ -1,3 +1,8 @@
 {
-  "item.gu_daoism.primeval_stone": "Primeval Stone"
+  "item.gu_daoism.primeval_stone": "Primeval Stone",
+  "item.gu_daoism.jade_skin_gu_item": "§2Jade Skin Gu",
+  "item.gu_daoism.gambling_rock_item": "Gambling Rock",
+
+  "itemGroup.gu_materials_tab": "Gu Materials",
+  "itemGroup.gu_tab": "Gu Worms"
 }

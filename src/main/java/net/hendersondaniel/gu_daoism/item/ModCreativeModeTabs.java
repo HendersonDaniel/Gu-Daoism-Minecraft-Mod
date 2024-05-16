@@ -12,4 +12,11 @@ public class ModCreativeModeTabs {
         }
     };
 
+    public static final CreativeModeTab GU_TAB = new CreativeModeTab("gu_tab") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModItems.JADE_SKIN_GU_ITEM.get());
+        }
+    };
+
 }

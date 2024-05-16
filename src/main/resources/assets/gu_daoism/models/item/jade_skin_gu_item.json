@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gu_daoism:item/jade_skin_gu_item"
+  }
+}
