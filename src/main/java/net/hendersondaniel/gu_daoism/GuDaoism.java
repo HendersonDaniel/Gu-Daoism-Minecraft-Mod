@@ -2,6 +2,7 @@ package net.hendersondaniel.gu_daoism;
 
 import com.mojang.logging.LogUtils;
 import net.hendersondaniel.gu_daoism.item.ModItems;
+import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -34,7 +35,11 @@ public class GuDaoism
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        event.enqueueWork(() -> {
+            ModMessages.register();
 
+
+        });
 
     }
 

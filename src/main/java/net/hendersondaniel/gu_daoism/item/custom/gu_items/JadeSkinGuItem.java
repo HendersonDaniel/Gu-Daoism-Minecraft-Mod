@@ -1,9 +1,13 @@
 package net.hendersondaniel.gu_daoism.item.custom.gu_items;
 
+import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
+import net.hendersondaniel.gu_daoism.networking.ModMessages;
+import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +28,7 @@ public class JadeSkinGuItem extends Item {
         super(properties);
     }
 
-
+    private final double primevalEssenceCost = 10.0;
 
 
     @Override
@@ -63,6 +67,22 @@ public class JadeSkinGuItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if(!level.isClientSide() && hand == InteractionHand.MAIN_HAND) {
+
+            //uses primeval essence
+            player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
+
+                //if enough primeval essence
+                if(s.subPrimevalEssence(primevalEssenceCost)){
+                    player.sendSystemMessage(Component.literal("(S) Current Primeval Essence: " + s.getPrimevalEssence())
+                            .withStyle(ChatFormatting.YELLOW));
+                    ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), (ServerPlayer) player);
+                } else {
+                    player.sendSystemMessage(Component.literal("(F) Current Primeval Essence: " + s.getPrimevalEssence())
+                            .withStyle(ChatFormatting.YELLOW));
+                }
+
+
+            });
 
             //TODO: shoots something here
 
