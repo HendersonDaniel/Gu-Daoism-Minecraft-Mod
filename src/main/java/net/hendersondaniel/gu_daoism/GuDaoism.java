@@ -1,10 +1,14 @@
 package net.hendersondaniel.gu_daoism;
 
 import com.mojang.logging.LogUtils;
+import net.hendersondaniel.gu_daoism.commands.SetPrimevalEssenceCommand;
+import net.hendersondaniel.gu_daoism.commands.SetRawStageCommand;
+import net.hendersondaniel.gu_daoism.commands.SetTalentCommand;
 import net.hendersondaniel.gu_daoism.item.ModItems;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,6 +51,14 @@ public class GuDaoism
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
+
+    }
+
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        SetRawStageCommand.register(event.getDispatcher());
+        SetPrimevalEssenceCommand.register(event.getDispatcher());
+        SetTalentCommand.register(event.getDispatcher());
 
 
     }

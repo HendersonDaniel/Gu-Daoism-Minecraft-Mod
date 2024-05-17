@@ -3,12 +3,12 @@ package net.hendersondaniel.gu_daoism.aperture.primeval_essence;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerStats {
-    private int talent = 30; //TODO: set to 0 and make a way to get talent
-    private double primevalEssence = 30.0; //TODO: set back to 0 or to maxprimevalessenceofplayer
+    private int talent = 0;
+    private double primevalEssence = 0.0;
     private double attackBuff = 0.0;
     private double defenseBuff = 0.0;
     private int cultivationProgress = 0;
-    private int rawStage = 0; //TODO: set to -1
+    private int rawStage = 0;
 
 
     public void copyFrom(PlayerStats source) {

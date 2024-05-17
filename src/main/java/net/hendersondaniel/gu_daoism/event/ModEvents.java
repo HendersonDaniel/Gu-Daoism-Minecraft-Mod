@@ -5,6 +5,8 @@ import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStats;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
+import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
+import net.hendersondaniel.gu_daoism.networking.packet.TalentSyncS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -71,6 +73,8 @@ public class ModEvents {
                 if(event.getEntity() instanceof ServerPlayer player) {
                     player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
                         ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), player);
+                        ModMessages.sendToPlayer(new RawStageSyncS2CPacket(s.getRawStage()),player);
+                        ModMessages.sendToPlayer(new TalentSyncS2CPacket(s.getTalent()),player);
                     });
                 }
             }
@@ -89,8 +93,13 @@ public class ModEvents {
                 for (ServerPlayer player : trackedPlayers) {
                     player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(stats -> {
                         double maxPrimevalEssence = stats.getMaxPrimevalEssence();
-                        stats.addPrimevalEssence(0.01 * maxPrimevalEssence);
-                        ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(stats.getPrimevalEssence()), player);
+                        double currentPrimevalEssence = stats.getPrimevalEssence();
+
+                        if(currentPrimevalEssence < maxPrimevalEssence){
+                            stats.addPrimevalEssence(0.01 * maxPrimevalEssence);
+                            ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(stats.getPrimevalEssence()), player);
+                        }
+
                     });
                 }
             }, 0, 6, TimeUnit.SECONDS); //every one-tenth of a minute, regen one-hundredth of the maxPrimevalEssence. This means every minute, generate one-tenth.
@@ -99,6 +108,13 @@ public class ModEvents {
         @SubscribeEvent
         public static void onServerStopping(ServerStoppingEvent event) {
             scheduler.shutdown();
+            try {
+                if (!scheduler.awaitTermination(10, TimeUnit.SECONDS)) {
+                    scheduler.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                scheduler.shutdownNow();
+            }
         }
     }
 }
