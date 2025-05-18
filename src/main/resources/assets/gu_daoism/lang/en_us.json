@@ -4,5 +4,8 @@
   "item.gu_daoism.gambling_rock_item": "Gambling Rock",
 
   "itemGroup.gu_materials_tab": "Gu Materials",
-  "itemGroup.gu_tab": "Gu Worms"
+  "itemGroup.gu_tab": "Gu Worms",
+  "key.gu_daoism.open_aperture_inventory": "Open Aperture Inventory",
+  "key.category.gu_daoism.aperture": "Aperture"
+
 }

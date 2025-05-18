@@ -1,10 +1,7 @@
 package net.hendersondaniel.gu_daoism.networking;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
-import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceC2SPacket;
-import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
-import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
-import net.hendersondaniel.gu_daoism.networking.packet.TalentSyncS2CPacket;
+import net.hendersondaniel.gu_daoism.networking.packet.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -32,10 +29,12 @@ public class ModMessages {
         );
 
         // Registering messages
+        INSTANCE.registerMessage(id(), OpenApertureC2SPacket.class, OpenApertureC2SPacket::toBytes, OpenApertureC2SPacket::new, OpenApertureC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), PrimevalEssenceC2SPacket.class, PrimevalEssenceC2SPacket::toBytes, PrimevalEssenceC2SPacket::new, PrimevalEssenceC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), PrimevalEssenceSyncS2CPacket.class, PrimevalEssenceSyncS2CPacket::toBytes, PrimevalEssenceSyncS2CPacket::new, PrimevalEssenceSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         INSTANCE.registerMessage(id(), RawStageSyncS2CPacket.class, RawStageSyncS2CPacket::toBytes, RawStageSyncS2CPacket::new, RawStageSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         INSTANCE.registerMessage(id(), TalentSyncS2CPacket.class, TalentSyncS2CPacket::toBytes, TalentSyncS2CPacket::new, TalentSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+
 
 //        INSTANCE.registerMessage(id(), EnergySyncS2CPacket.class, EnergySyncS2CPacket::toBytes, EnergySyncS2CPacket::new, EnergySyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 //        INSTANCE.registerMessage(id(), FluidSyncS2CPacket.class, FluidSyncS2CPacket::toBytes, FluidSyncS2CPacket::new, FluidSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));

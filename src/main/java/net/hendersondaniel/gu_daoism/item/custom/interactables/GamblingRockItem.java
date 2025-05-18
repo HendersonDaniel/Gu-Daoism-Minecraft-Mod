@@ -76,7 +76,7 @@ public class GamblingRockItem extends Item {
     public static ItemStack createGamblingRockWithNBT(String registry, float chance) {
         ItemStack stack = new ItemStack(ModItems.GAMBLING_ROCK_ITEM.get());
         CompoundTag nbt = new CompoundTag();
-        nbt.putString("RewardItem", "gu_daoism:"+ registry);
+        nbt.putString("RewardItem", registry);
         nbt.putFloat("SuccessChance", chance);
         stack.setTag(nbt);
         return stack;

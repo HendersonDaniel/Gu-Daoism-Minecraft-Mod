@@ -3,22 +3,28 @@ package net.hendersondaniel.gu_daoism.event;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStats;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
+import net.hendersondaniel.gu_daoism.item.custom.gu_items.AGuItem;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.TalentSyncS2CPacket;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 
 import java.util.HashSet;
@@ -27,9 +33,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static net.hendersondaniel.gu_daoism.item.custom.interactables.GamblingRockItem.createGamblingRockWithNBT;
+
 public class ModEvents {
 
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static final Set<ServerPlayer> trackedPlayers = new HashSet<>();
 
     @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID)
@@ -89,6 +97,9 @@ public class ModEvents {
 
         @SubscribeEvent
         public static void onServerStarted(ServerStartedEvent event) {
+            if (scheduler == null || scheduler.isShutdown()) {
+                scheduler = Executors.newScheduledThreadPool(1);
+            }
             scheduler.scheduleAtFixedRate(() -> {
                 for (ServerPlayer player : trackedPlayers) {
                     player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(stats -> {
@@ -107,13 +118,56 @@ public class ModEvents {
 
         @SubscribeEvent
         public static void onServerStopping(ServerStoppingEvent event) {
-            scheduler.shutdown();
-            try {
-                if (!scheduler.awaitTermination(10, TimeUnit.SECONDS)) {
+            if (scheduler != null && !scheduler.isShutdown()) {
+                scheduler.shutdown();
+                try {
+                    if (!scheduler.awaitTermination(10, TimeUnit.SECONDS)) {
+                        scheduler.shutdownNow();
+                    }
+                } catch (InterruptedException e) {
                     scheduler.shutdownNow();
+                    Thread.currentThread().interrupt();
                 }
-            } catch (InterruptedException e) {
-                scheduler.shutdownNow();
+            }
+        }
+
+
+        @SubscribeEvent
+        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+            Player player = event.player;
+
+            // Only run on server side and END phase
+            if (player.getLevel().isClientSide() || event.phase != TickEvent.Phase.END) return;
+
+            long currentWorldTime = player.getLevel().getGameTime();
+
+            // Loop through inventory
+            for (int i = 0; i < player.getInventory().items.size(); i++) {
+                ItemStack stack = player.getInventory().getItem(i);
+
+
+
+                if (!(stack.getItem() instanceof AGuItem)) continue;
+
+                AGuItem item = (AGuItem) stack.getItem();
+
+                CompoundTag tag = stack.getOrCreateTag();
+
+                if (!tag.contains("LastFedTime")) {
+                    tag.putLong("LastFedTime", currentWorldTime);
+                    continue;
+                }
+
+                long lastFedTime = tag.getLong("LastFedTime");
+                long ticksSinceFed = currentWorldTime - lastFedTime;
+                long ticksRemaining = Math.max(0, item.getMaxSatiationTime() - ticksSinceFed);
+
+                if (ticksRemaining <= 0) {
+                    ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+                    if(id == null) return;
+                    ItemStack newStack = createGamblingRockWithNBT(id.toString(), player.getLevel().random.nextFloat());
+                    player.getInventory().setItem(i, newStack);
+                }
             }
         }
     }

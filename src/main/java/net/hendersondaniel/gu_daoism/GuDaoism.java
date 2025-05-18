@@ -4,6 +4,8 @@ import com.mojang.logging.LogUtils;
 import net.hendersondaniel.gu_daoism.commands.SetPrimevalEssenceCommand;
 import net.hendersondaniel.gu_daoism.commands.SetRawStageCommand;
 import net.hendersondaniel.gu_daoism.commands.SetTalentCommand;
+import net.hendersondaniel.gu_daoism.config.ClientConfigs;
+import net.hendersondaniel.gu_daoism.config.CommonConfigs;
 import net.hendersondaniel.gu_daoism.item.ModItems;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,7 +13,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -29,12 +33,14 @@ public class GuDaoism
     public GuDaoism()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         ModItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfigs.SPEC, "gu_daoism-client.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfigs.SPEC, "gu_daoism-common.toml");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
