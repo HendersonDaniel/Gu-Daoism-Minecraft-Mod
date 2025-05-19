@@ -20,33 +20,12 @@ import static net.hendersondaniel.gu_daoism.item.custom.interactables.GamblingRo
 public class JadeSkinGuItem extends AGuItem {
     public JadeSkinGuItem(Properties properties) {
         super(properties);
+
+        setRank(1);
+        setFoodType("Jade");
+        setMaxSatiationTime(1200*2);
+        setPrimevalEssenceCost(10.0);
     }
-
-    private final int rank = 1;
-    private final String food = "Jade";
-    private final long maxSatiationTime = 1200*2; // in ticks
-    private final double primevalEssenceCost = 10.0;
-
-    @Override
-    protected int getRank() {
-        return rank;
-    }
-
-    @Override
-    protected String getFoodType() {
-        return food;
-    }
-
-    @Override
-    public long getMaxSatiationTime() {
-        return maxSatiationTime;
-    }
-
-    @Override
-    protected double getPrimevalEssenceCost() {
-        return primevalEssenceCost;
-    }
-
 
 
 

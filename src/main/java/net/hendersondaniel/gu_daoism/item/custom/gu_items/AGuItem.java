@@ -15,12 +15,19 @@ import java.util.List;
 import static net.hendersondaniel.gu_daoism.util.FormattingMethods.formatTicksToTime;
 
 public abstract class AGuItem extends Item {
+
+
+    // defaults that must be changed
+    private int rank = -1;
+    private String food = null;
+    private long maxSatiationTime = -1; // in ticks
+    private double primevalEssenceCost = -1;
+
     public AGuItem(Properties p_41383_) {
         super(p_41383_);
     }
 
 
-    protected abstract int getRank();
     protected ChatFormatting getRankColor(){
         switch(getRank()){
             case 1:
@@ -37,9 +44,38 @@ public abstract class AGuItem extends Item {
                 return ChatFormatting.BLACK;
         }
     }
-    protected abstract String getFoodType(); // "Jade", "Gold"
-    public abstract long getMaxSatiationTime(); // 1200 times the config number
-    protected abstract double getPrimevalEssenceCost();
+
+    public int getRank() {
+        return rank;
+    }
+
+    public String getFoodType() {
+        return food;
+    }
+
+    public long getMaxSatiationTime() {
+        return maxSatiationTime;
+    }
+
+    public double getPrimevalEssenceCost() {
+        return primevalEssenceCost;
+    }
+
+    protected void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    protected void setFoodType(String food) {
+        this.food = food;
+    }
+
+    protected void setMaxSatiationTime(long maxSatiationTime) {
+        this.maxSatiationTime = maxSatiationTime;
+    }
+
+    protected void setPrimevalEssenceCost(double primevalEssenceCost) {
+        this.primevalEssenceCost = primevalEssenceCost;
+    }
 
 
     @Override
