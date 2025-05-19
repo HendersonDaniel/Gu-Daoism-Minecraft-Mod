@@ -1,9 +1,16 @@
 package net.hendersondaniel.gu_daoism.item.custom.gu_items;
 
+import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
+import net.hendersondaniel.gu_daoism.networking.ModMessages;
+import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -106,4 +113,34 @@ public abstract class AGuItem extends Item {
 
         super.appendHoverText(stack, level, components, flag);
     }
+
+    // returns true if conditions met and run, false if conditions not met.
+    protected abstract void runGuEffect(Level level, Player player);
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if(!level.isClientSide() && hand == InteractionHand.MAIN_HAND) {
+
+            //uses primeval essence
+            player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
+
+                //if enough primeval essence
+                if(s.subPrimevalEssence(getPrimevalEssenceCost())){
+                    ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), (ServerPlayer) player);
+
+                    // run logic for gu effect
+                    runGuEffect(level, player);
+                    //TODO: Add sound effect
+
+                } else {
+                    player.sendSystemMessage(Component.literal("(F) Current Primeval Essence: " + s.getPrimevalEssence())
+                            .withStyle(ChatFormatting.YELLOW));
+                    //TODO: add sound effect
+                }
+            });
+        }
+        return super.use(level, player, hand);
+    }
+
+
 }

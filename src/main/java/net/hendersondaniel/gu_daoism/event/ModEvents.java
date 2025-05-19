@@ -12,9 +12,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -130,6 +134,32 @@ public class ModEvents {
                 }
             }
         }
+
+        @SubscribeEvent
+        public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+
+            if(event.getLevel().isClientSide()) return;
+
+            if (!(event.getEntity() instanceof ItemEntity itemEntity)) return;
+
+            if (!(itemEntity.getItem().getItem() instanceof AGuItem item)) return;
+
+            // spawn gu entity
+            // TODO: make it a gu and not a pig
+
+            Level level = event.getLevel();
+            Vec3 position = itemEntity.position();
+
+            Pig pig = EntityType.PIG.create(level);
+            if (pig != null) {
+                pig.setPos(position);
+                level.addFreshEntity(pig);
+            }
+
+            event.setCanceled(true); // prevent gu item from appearing
+        }
+
+
 
 
         @SubscribeEvent
