@@ -21,7 +21,7 @@ import java.util.List;
 
 import static net.hendersondaniel.gu_daoism.util.FormattingMethods.formatTicksToTime;
 
-public abstract class AGuItem extends Item {
+public abstract class AbstractGuItem extends Item {
 
 
     // defaults that must be changed
@@ -30,7 +30,7 @@ public abstract class AGuItem extends Item {
     private long maxSatiationTime = -1; // in ticks
     private double primevalEssenceCost = -1;
 
-    public AGuItem(Properties p_41383_) {
+    public AbstractGuItem(Properties p_41383_) {
         super(p_41383_);
     }
 

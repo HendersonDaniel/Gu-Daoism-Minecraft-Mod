@@ -3,7 +3,7 @@ package net.hendersondaniel.gu_daoism.event;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStats;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
-import net.hendersondaniel.gu_daoism.item.custom.gu_items.AGuItem;
+import net.hendersondaniel.gu_daoism.item.custom.gu_items.AbstractGuItem;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
@@ -142,7 +142,7 @@ public class ModEvents {
 
             if (!(event.getEntity() instanceof ItemEntity itemEntity)) return;
 
-            if (!(itemEntity.getItem().getItem() instanceof AGuItem item)) return;
+            if (!(itemEntity.getItem().getItem() instanceof AbstractGuItem item)) return;
 
             // spawn gu entity
             // TODO: make it a gu and not a pig
@@ -177,9 +177,9 @@ public class ModEvents {
 
 
 
-                if (!(stack.getItem() instanceof AGuItem)) continue;
+                if (!(stack.getItem() instanceof AbstractGuItem)) continue;
 
-                AGuItem item = (AGuItem) stack.getItem();
+                AbstractGuItem item = (AbstractGuItem) stack.getItem();
 
                 CompoundTag tag = stack.getOrCreateTag();
 

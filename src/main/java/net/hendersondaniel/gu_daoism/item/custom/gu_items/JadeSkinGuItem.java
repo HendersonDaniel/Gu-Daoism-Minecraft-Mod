@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class JadeSkinGuItem extends AGuItem {
+public class JadeSkinGuItem extends AbstractGuItem {
     public JadeSkinGuItem(Properties properties) {
         super(properties);
 

@@ -19,11 +19,10 @@ public class ClientEvents {
     public static class ClientForgeEvents {
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
-            if (ModKeyBindings.KEY_OPEN_APERTURE_INVENTORY.consumeClick()) {
+            if (ModKeyBindings.KEY_OPEN_APERTURE_SCREEN.consumeClick()) {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if (player != null) {
                     //ModMessages.sendToServer(new OpenApertureC2SPacket());
-
                 }
             }
         }
@@ -34,7 +33,7 @@ public class ClientEvents {
 
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
-            event.register(ModKeyBindings.KEY_OPEN_APERTURE_INVENTORY);
+            event.register(ModKeyBindings.KEY_OPEN_APERTURE_SCREEN);
         }
 
         @SubscribeEvent

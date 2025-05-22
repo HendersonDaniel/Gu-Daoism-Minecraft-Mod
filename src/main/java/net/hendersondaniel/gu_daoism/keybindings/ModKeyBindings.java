@@ -7,8 +7,8 @@ import org.lwjgl.glfw.GLFW;
 
 public class ModKeyBindings {
     public static final String KEY_CATEGORY_GU_DAOISM = "key.category.gu_daoism.aperture";
-    public static final String KEY_OPEN_APERTURE_INVENTORY_LANG= "key.gu_daoism.open_aperture_inventory";
+    public static final String KEY_OPEN_APERTURE_SCREEN_LANG= "key.gu_daoism.open_aperture_screen";
 
-    public static final KeyMapping KEY_OPEN_APERTURE_INVENTORY = new KeyMapping(KEY_OPEN_APERTURE_INVENTORY_LANG, KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_I, KEY_CATEGORY_GU_DAOISM);
+    public static final KeyMapping KEY_OPEN_APERTURE_SCREEN = new KeyMapping(KEY_OPEN_APERTURE_SCREEN_LANG, KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, KEY_CATEGORY_GU_DAOISM);
 }
