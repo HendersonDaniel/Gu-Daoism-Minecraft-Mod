@@ -108,11 +108,6 @@ public class PrimevalEssenceHudOverlay {
                 float primevalEssencePercentage = (float) currentPrimevalEssence / maxAperture;
 
 
-                //        System.out.println("Current Primeval Essence: " + currentPrimevalEssence);
-                //        System.out.println("Max Aperture: " + maxAperture);
-                //        System.out.println("Primeval Essence Percentage: " + primevalEssencePercentage);
-
-
                 //render filled aperture
                 int filledHeight = (int) (48 * primevalEssencePercentage);
                 if (filledHeight > 0) {
