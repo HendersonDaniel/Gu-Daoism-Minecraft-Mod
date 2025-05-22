@@ -29,7 +29,7 @@ public class ModMessages {
         );
 
         // Registering messages
-        INSTANCE.registerMessage(id(), OpenApertureC2SPacket.class, OpenApertureC2SPacket::toBytes, OpenApertureC2SPacket::new, OpenApertureC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        //INSTANCE.registerMessage(id(), OpenApertureC2SPacket.class, OpenApertureC2SPacket::toBytes, OpenApertureC2SPacket::new, OpenApertureC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), PrimevalEssenceC2SPacket.class, PrimevalEssenceC2SPacket::toBytes, PrimevalEssenceC2SPacket::new, PrimevalEssenceC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), PrimevalEssenceSyncS2CPacket.class, PrimevalEssenceSyncS2CPacket::toBytes, PrimevalEssenceSyncS2CPacket::new, PrimevalEssenceSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         INSTANCE.registerMessage(id(), RawStageSyncS2CPacket.class, RawStageSyncS2CPacket::toBytes, RawStageSyncS2CPacket::new, RawStageSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));

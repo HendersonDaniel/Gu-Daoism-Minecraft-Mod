@@ -60,12 +60,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis lacinia magn
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
-[[dependencies.gu_daoism]] #optional
-    modId="tau" #mandatory
-    mandatory=true #mandatory
-    versionRange="[1.0.3-1.19,)" #mandatory
-    ordering="NONE"
-    side="BOTH"
 # Here's another dependency
 [[dependencies.gu_daoism]]
     modId="minecraft"

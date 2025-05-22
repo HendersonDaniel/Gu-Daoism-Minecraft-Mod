@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 public class GuDaoism
 {
     public static final String MOD_ID = "gu_daoism";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
 
 

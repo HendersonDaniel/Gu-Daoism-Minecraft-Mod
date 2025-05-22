@@ -1,6 +1,8 @@
 package net.hendersondaniel.gu_daoism.event;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
+import net.hendersondaniel.gu_daoism.aperture.aperture_gui_screens.CultivationStatsScreen;
+import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
 import net.hendersondaniel.gu_daoism.client.PrimevalEssenceHudOverlay;
 import net.hendersondaniel.gu_daoism.keybindings.ModKeyBindings;
 import net.minecraft.client.Minecraft;
@@ -22,7 +24,10 @@ public class ClientEvents {
             if (ModKeyBindings.KEY_OPEN_APERTURE_SCREEN.consumeClick()) {
                 LocalPlayer player = Minecraft.getInstance().player;
                 if (player != null) {
-                    //ModMessages.sendToServer(new OpenApertureC2SPacket());
+
+                    player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
+                        Minecraft.getInstance().setScreen(new CultivationStatsScreen(cap));
+                    });
                 }
             }
         }

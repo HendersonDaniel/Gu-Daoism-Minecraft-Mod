@@ -1,6 +1,7 @@
 package net.hendersondaniel.gu_daoism.networking.packet;
 
-import net.hendersondaniel.gu_daoism.client.ClientStatsData;
+import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -25,7 +26,9 @@ public class TalentSyncS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             // on the client
-            ClientStatsData.setTalent(talent);
+            Minecraft.getInstance().player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
+                cap.setTalent(talent);
+            });
 
 
         });

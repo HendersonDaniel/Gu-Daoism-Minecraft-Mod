@@ -14,4 +14,23 @@ public class FormattingMethods {
 
         return days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds";
     }
+
+    public static String stageIntToStageName(int stage){
+        switch(stage){
+            case 0:
+                return "Initial";
+            case 1:
+                return "Middle";
+            case 2:
+                return "Upper";
+            case 3:
+                return "Peak";
+            default:
+                return "Idk how you got to this...";
+        }
+    }
+
+    public static int rawStageToRealm(int rawStage){
+        return rawStage/4 + 1;
+    }
 }

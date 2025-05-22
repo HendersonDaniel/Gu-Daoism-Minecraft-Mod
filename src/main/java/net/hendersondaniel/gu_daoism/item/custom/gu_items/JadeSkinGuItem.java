@@ -11,7 +11,7 @@ public class JadeSkinGuItem extends AbstractGuItem {
 
         setRank(1);
         setFoodType("Jade");
-        setMaxSatiationTime(1200*2);
+        setMaxSatiationTime(1200*180);
         setPrimevalEssenceCost(10.0);
     }
 
