@@ -30,17 +30,17 @@ public class GuDaoism
 
 
 
-    public GuDaoism()
+    public GuDaoism(FMLJavaModLoadingContext context)
     {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = context.getModEventBus();
         ModItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfigs.SPEC, "gu_daoism-client.toml");
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfigs.SPEC, "gu_daoism-common.toml");
+        context.registerConfig(ModConfig.Type.CLIENT, ClientConfigs.SPEC, "gu_daoism-client.toml");
+        context.registerConfig(ModConfig.Type.COMMON, CommonConfigs.SPEC, "gu_daoism-common.toml");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

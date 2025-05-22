@@ -3,9 +3,6 @@ package net.hendersondaniel.gu_daoism.event;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.client.PrimevalEssenceHudOverlay;
 import net.hendersondaniel.gu_daoism.keybindings.ModKeyBindings;
-import net.hendersondaniel.gu_daoism.networking.ModMessages;
-import net.hendersondaniel.gu_daoism.networking.packet.OpenApertureC2SPacket;
-import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 

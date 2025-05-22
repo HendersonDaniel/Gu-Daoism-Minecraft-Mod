@@ -22,7 +22,7 @@ public class ModMessages {
 
     public static void register() {
         INSTANCE = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(GuDaoism.MOD_ID, "aperture_messages"),
+                ResourceLocation.fromNamespaceAndPath(GuDaoism.MOD_ID, "aperture_messages"),
                 () -> PROTOCOL_VERSION,
                 PROTOCOL_VERSION::equals,
                 PROTOCOL_VERSION::equals

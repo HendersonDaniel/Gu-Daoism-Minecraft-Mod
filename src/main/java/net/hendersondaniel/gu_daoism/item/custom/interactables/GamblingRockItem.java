@@ -34,7 +34,7 @@ public class GamblingRockItem extends Item {
             float successChance = nbtData.getFloat("SuccessChance");
             if (level.random.nextFloat() < successChance) {
                 String rewardItemRegistryName = nbtData.getString("RewardItem");
-                Item rewardItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(rewardItemRegistryName));
+                Item rewardItem = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(rewardItemRegistryName));
                 if (rewardItem != null) {
 
                     ItemStack newItemStack = new ItemStack(rewardItem);

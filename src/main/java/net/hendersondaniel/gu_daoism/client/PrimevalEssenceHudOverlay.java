@@ -10,8 +10,8 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class PrimevalEssenceHudOverlay {
 
-    private static final ResourceLocation EMPTY_APERTURE = new ResourceLocation(GuDaoism.MOD_ID, "textures/aperture/empty_aperture.png");
-    private static final ResourceLocation FILLED_APERTURE = new ResourceLocation(GuDaoism.MOD_ID, "textures/aperture/filled_aperture.png");
+    private static final ResourceLocation EMPTY_APERTURE = ResourceLocation.fromNamespaceAndPath(GuDaoism.MOD_ID, "textures/aperture/empty_aperture.png");
+    private static final ResourceLocation FILLED_APERTURE = ResourceLocation.fromNamespaceAndPath(GuDaoism.MOD_ID, "textures/aperture/filled_aperture.png");
 
     public static final IGuiOverlay HUD_APERTURE = (gui, poseStack, partialTick, width, height) -> {
         int x = width / 2;

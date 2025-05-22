@@ -12,12 +12,12 @@ public class PlayerStats {
 
 
     public void copyFrom(PlayerStats source) {
-        this.talent = source.talent;
-        this.primevalEssence = source.primevalEssence;
-        this.attackBuff = source.attackBuff;
-        this.defenseBuff = source.defenseBuff;
-        this.cultivationProgress = source.cultivationProgress;
-        this.rawStage=source.rawStage;
+        this.talent = source.getTalent();
+        this.primevalEssence = source.getPrimevalEssence();
+        this.attackBuff = source.getAttackBuff();
+        this.defenseBuff = source.getDefenseBuff();
+        this.cultivationProgress = source.getCultivationProgress();
+        this.rawStage=source.getRawStage();
     }
 
     public void setTalent(int talent) {

@@ -51,7 +51,7 @@ public class ModEvents {
         public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
             if (event.getObject() instanceof Player) {
                 if (!event.getObject().getCapability(PlayerStatsProvider.PLAYER_STATS).isPresent()) {
-                    event.addCapability(new ResourceLocation(GuDaoism.MOD_ID, "properties"), new PlayerStatsProvider());
+                    event.addCapability(ResourceLocation.fromNamespaceAndPath(GuDaoism.MOD_ID, "properties"), new PlayerStatsProvider());
                 }
             }
         }

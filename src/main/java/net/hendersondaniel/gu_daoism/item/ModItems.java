@@ -19,13 +19,11 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> PRIMEVAL_STONE = ITEMS.register("primeval_stone",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTabs.GU_MATERIALS_TAB)));
+            () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> JADE_SKIN_GU_ITEM = ITEMS.register("jade_skin_gu_item",
             () -> new JadeSkinGuItem(new Item.Properties()
-                    .tab(ModCreativeModeTabs.GU_TAB)
                     .stacksTo(1)
-                    //.defaultDurability(20)
             ));
 
     public static final RegistryObject<Item> GAMBLING_ROCK_ITEM = ITEMS.register("gambling_rock_item",
