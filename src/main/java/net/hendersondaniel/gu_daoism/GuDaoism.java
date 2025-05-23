@@ -84,8 +84,8 @@ public class GuDaoism
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-//            ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_PRIMEVAL_ESSENCE_LIQUID.get(), RenderType.translucent());
-//            ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_PRIMEVAL_ESSENCE_FLUID.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_PRIMEVAL_ESSENCE_LIQUID.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_PRIMEVAL_ESSENCE_FLUID.get(), RenderType.translucent());
 
         }
     }
