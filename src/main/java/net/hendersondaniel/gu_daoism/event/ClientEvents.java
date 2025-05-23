@@ -8,6 +8,7 @@ import net.hendersondaniel.gu_daoism.keybindings.ModKeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -43,7 +44,8 @@ public class ClientEvents {
 
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-            event.registerAboveAll("aperture", PrimevalEssenceHudOverlay.HUD_APERTURE);
+//            event.registerAboveAll("aperture", PrimevalEssenceHudOverlay.HUD_APERTURE);
+            event.registerAbove(ResourceLocation.fromNamespaceAndPath("minecraft","hotbar"),"aperture",PrimevalEssenceHudOverlay.HUD_APERTURE);
         }
 
 
