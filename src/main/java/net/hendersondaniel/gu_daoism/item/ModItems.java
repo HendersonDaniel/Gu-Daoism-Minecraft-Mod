@@ -1,12 +1,15 @@
 package net.hendersondaniel.gu_daoism.item;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
+import net.hendersondaniel.gu_daoism.fluid.ModFluids;
 import net.hendersondaniel.gu_daoism.item.custom.gu_items.JadeSkinGuItem;
 import net.hendersondaniel.gu_daoism.item.custom.interactables.GamblingRockItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,6 +33,10 @@ public class ModItems {
             () -> new GamblingRockItem(new Item.Properties()
                     .stacksTo(1)
             ));
+
+    public static final RegistryObject<Item> PRIMEVAL_ESSENCE_BUCKET = ITEMS.register("primeval_essence_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_PRIMEVAL_ESSENCE_LIQUID,
+                    new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
 
 

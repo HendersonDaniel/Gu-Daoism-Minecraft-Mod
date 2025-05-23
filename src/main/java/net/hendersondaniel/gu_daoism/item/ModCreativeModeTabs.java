@@ -36,6 +36,7 @@ public class ModCreativeModeTabs {
                         .icon(() -> new ItemStack(ModItems.PRIMEVAL_STONE.get()))
                         .displayItems((params, output) -> {
                             output.accept(ModItems.PRIMEVAL_STONE.get());
+                            output.accept(ModItems.PRIMEVAL_ESSENCE_BUCKET.get());
                             // Add more materials here
                         })
         );
