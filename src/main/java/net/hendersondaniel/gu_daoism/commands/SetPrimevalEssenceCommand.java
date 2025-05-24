@@ -8,7 +8,6 @@ import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
-import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
