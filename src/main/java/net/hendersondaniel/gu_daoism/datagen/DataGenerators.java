@@ -1,4 +1,4 @@
-package net.hendersondaniel.datagen;
+package net.hendersondaniel.gu_daoism.datagen;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.minecraft.core.HolderLookup;
