@@ -2,7 +2,6 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
-    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = '0.0.1-1.19.4'
@@ -125,14 +124,7 @@ repositories {
     //     dir 'libs'
     // }
 
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 
 }
 
@@ -143,8 +135,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.19.4-45.4.0'
 
 
-    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.19.4:4.2")
-    implementation("com.eliotlash.mclib:mclib:20")
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.19.4:4.1.2")
 
 
     // Real mod deobf dependency examples - these get remapped to your current mappings

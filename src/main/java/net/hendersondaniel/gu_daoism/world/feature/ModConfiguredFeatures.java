@@ -1,4 +1,4 @@
-package net.hendersondaniel.world.feature;
+package net.hendersondaniel.gu_daoism.world.feature;
 
 
 import net.hendersondaniel.gu_daoism.GuDaoism;

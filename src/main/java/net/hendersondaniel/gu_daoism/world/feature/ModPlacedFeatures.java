@@ -1,4 +1,4 @@
-package net.hendersondaniel.world.feature;
+package net.hendersondaniel.gu_daoism.world.feature;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.minecraft.core.Holder;
@@ -7,7 +7,6 @@ import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 
@@ -26,7 +25,7 @@ public class ModPlacedFeatures {
 
         // Register the placed feature for the spirit spring lake
         register(context, SPIRIT_SPRING_CHECKED_KEY, spiritSpringConfigured,
-                RarityFilter.onAverageOnceEvery(500),  // Adjust frequency as you want
+                RarityFilter.onAverageOnceEvery(32),  // Adjust frequency as you want
                 InSquarePlacement.spread(),
                 HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)
 

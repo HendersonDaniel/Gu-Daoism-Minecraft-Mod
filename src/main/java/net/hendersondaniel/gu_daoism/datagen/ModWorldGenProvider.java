@@ -1,8 +1,8 @@
 package net.hendersondaniel.gu_daoism.datagen;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
-import net.hendersondaniel.world.feature.ModConfiguredFeatures;
-import net.hendersondaniel.world.feature.ModPlacedFeatures;
+import net.hendersondaniel.gu_daoism.world.feature.ModConfiguredFeatures;
+import net.hendersondaniel.gu_daoism.world.feature.ModPlacedFeatures;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
