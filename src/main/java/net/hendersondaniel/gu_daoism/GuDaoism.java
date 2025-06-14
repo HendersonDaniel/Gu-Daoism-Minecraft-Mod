@@ -7,12 +7,15 @@ import net.hendersondaniel.gu_daoism.commands.SetRawStageCommand;
 import net.hendersondaniel.gu_daoism.commands.SetTalentCommand;
 import net.hendersondaniel.gu_daoism.config.ClientConfigs;
 import net.hendersondaniel.gu_daoism.config.CommonConfigs;
+import net.hendersondaniel.gu_daoism.entity.ModEntities;
+import net.hendersondaniel.gu_daoism.entity.client.JadeSkinGuEntityRenderer;
 import net.hendersondaniel.gu_daoism.fluid.ModFluidTypes;
 import net.hendersondaniel.gu_daoism.fluid.ModFluids;
 import net.hendersondaniel.gu_daoism.item.ModItems;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -37,6 +40,7 @@ public class GuDaoism
     public GuDaoism(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
+        ModEntities.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
 
@@ -86,6 +90,7 @@ public class GuDaoism
         {
             ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_PRIMEVAL_ESSENCE_LIQUID.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_PRIMEVAL_ESSENCE_FLUID.get(), RenderType.translucent());
+            EntityRenderers.register(ModEntities.JADE_SKIN_GU_ENTITY.get(), JadeSkinGuEntityRenderer::new);
 
         }
     }

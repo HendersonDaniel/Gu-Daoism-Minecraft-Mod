@@ -3,6 +3,9 @@ package net.hendersondaniel.gu_daoism.event;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStats;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
+import net.hendersondaniel.gu_daoism.entity.ModEntities;
+import net.hendersondaniel.gu_daoism.entity.custom.AbstractGuEntity;
+import net.hendersondaniel.gu_daoism.entity.custom.JadeSkinGuEntity;
 import net.hendersondaniel.gu_daoism.item.custom.gu_items.AbstractGuItem;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
@@ -13,17 +16,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,6 +50,15 @@ public class ModEvents {
 
     private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static final Set<ServerPlayer> trackedPlayers = new HashSet<>();
+
+
+    @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistrationEvents {
+        @SubscribeEvent
+        public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
+            event.put(ModEntities.JADE_SKIN_GU_ENTITY.get(), JadeSkinGuEntity.setAttributes());
+        }
+    }
 
     @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID)
     public static class ForgeEvents {
@@ -142,25 +158,41 @@ public class ModEvents {
 
             if (!(event.getEntity() instanceof ItemEntity itemEntity)) return;
 
-            if (!(itemEntity.getItem().getItem() instanceof AbstractGuItem item)) return;
-
-            // spawn gu entity
-            // TODO: make it a gu and not a pig
+            if (!(itemEntity.getItem().getItem() instanceof AbstractGuItem abstractGuItem)) return;
 
             Level level = event.getLevel();
             Vec3 position = itemEntity.position();
 
-            Pig pig = EntityType.PIG.create(level);
-            if (pig != null) {
-                pig.setPos(position);
-                level.addFreshEntity(pig);
+
+            EntityType<?> guEntityType = abstractGuItem.getEntityType();
+            Entity guEntity = guEntityType.create(level);
+
+            if(guEntity != null){
+                guEntity.setPos(position);
+                level.addFreshEntity(guEntity);
             }
 
             event.setCanceled(true); // prevent gu item from appearing
         }
 
 
+        @SubscribeEvent
+        public static void onPlayerInteractWithGu(PlayerInteractEvent.EntityInteract event){
+            if(event.getTarget() instanceof AbstractGuEntity abstractGuEntity){
+                Player player = event.getEntity();
+                if(abstractGuEntity.isOwnedBy(player) || !abstractGuEntity.isTame()){
+                    if(!event.getLevel().isClientSide()){
+                        ItemStack stack = abstractGuEntity.getAsItem();
+                        if (!player.getInventory().add(stack)) {
+                            return;
+                        }
+                        abstractGuEntity.discard();
+                        event.setCanceled(true);
+                    }
 
+                }
+            }
+        }
 
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {

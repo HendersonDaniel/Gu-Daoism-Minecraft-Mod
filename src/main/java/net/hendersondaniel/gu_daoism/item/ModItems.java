@@ -1,6 +1,7 @@
 package net.hendersondaniel.gu_daoism.item;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
+import net.hendersondaniel.gu_daoism.entity.ModEntities;
 import net.hendersondaniel.gu_daoism.fluid.ModFluids;
 import net.hendersondaniel.gu_daoism.item.custom.gu_items.JadeSkinGuItem;
 import net.hendersondaniel.gu_daoism.item.custom.interactables.GamblingRockItem;
@@ -26,7 +27,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> JADE_SKIN_GU_ITEM = ITEMS.register("jade_skin_gu_item",
             () -> new JadeSkinGuItem(new Item.Properties()
-                    .stacksTo(1)
+                    .stacksTo(1),
+                    ModEntities.JADE_SKIN_GU_ENTITY
             ));
 
     public static final RegistryObject<Item> GAMBLING_ROCK_ITEM = ITEMS.register("gambling_rock_item",
