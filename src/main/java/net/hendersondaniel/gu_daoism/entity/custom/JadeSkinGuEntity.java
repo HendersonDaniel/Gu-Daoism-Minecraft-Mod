@@ -49,11 +49,6 @@ public class JadeSkinGuEntity extends AbstractGuEntity {
 
     @Override
     protected <T extends GeoAnimatable> PlayState predicate(AnimationState<T> state) {
-        if (this.isEating()) {
-            state.getController().setAnimation(RawAnimation.begin().then("animation.jade_skin_gu.eat", Animation.LoopType.PLAY_ONCE));
-            this.setEating(false);
-            return PlayState.CONTINUE;
-        }
 
         if (state.isMoving()) {
             state.getController().setAnimation(RawAnimation.begin().thenLoop("animation.jade_skin_gu.walk"));

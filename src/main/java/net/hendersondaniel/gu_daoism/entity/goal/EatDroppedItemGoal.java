@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -85,11 +86,24 @@ public class EatDroppedItemGoal extends Goal {
 
         mob.getLookControl().setLookAt(targetItem, 30.0F, 30.0F);
 
-        if (mob.distanceToSqr(targetItem) < 2.0D) {
+        if (mob.distanceToSqr(targetItem) < 1.0D && isFacingItem()) {
             eat(targetItem);
         } else if (!mob.getNavigation().isInProgress()) {
-            mob.getNavigation().moveTo(targetItem, 1.2D);
+            mob.getNavigation().moveTo(targetItem, 1.0D);
         }
+    }
+
+    private boolean isFacingItem() {
+        if (targetItem == null) return false;
+
+        Vec3 mobFacing = mob.getViewVector(1.0F).normalize();
+        Vec3 toItem = new Vec3(
+                targetItem.getX() - mob.getX(),
+                targetItem.getY() - mob.getY(),
+                targetItem.getZ() - mob.getZ()
+        ).normalize();
+
+        return mobFacing.dot(toItem) > 0.707;
     }
 
     private void eat(ItemEntity itemEntity) {

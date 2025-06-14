@@ -41,7 +41,9 @@ public abstract class AbstractGuEntityModel<T extends AbstractGuEntity> extends 
 
         CoreGeoBone head = getAnimationProcessor().getBone("head");
 
-        if (head != null) {
+        if(head == null) return;
+
+        if (!animatable.isEating()) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
 
             head.setRotX(entityData.headPitch() * Mth.DEG_TO_RAD);
