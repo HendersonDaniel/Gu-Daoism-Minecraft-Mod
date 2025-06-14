@@ -25,6 +25,8 @@ public abstract class AbstractGuEntity extends TamableAnimal implements GeoEntit
     private final Supplier<? extends AbstractGuItem> itemSupplier;
     private long lastFedTime = 0;
     private boolean isEating = false;
+    private int eatingAnimationTicks = 0;
+
 
     public AbstractGuEntity(EntityType<? extends TamableAnimal> entityType, Level level, Supplier<? extends AbstractGuItem> itemSupplier) {
         super(entityType, level);
@@ -56,8 +58,12 @@ public abstract class AbstractGuEntity extends TamableAnimal implements GeoEntit
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "eat_controller", 2,this::eatPredicate));
     }
     protected abstract <T extends GeoAnimatable> PlayState predicate(AnimationState<T> state);
+
+    protected abstract <T extends GeoAnimatable> PlayState eatPredicate(AnimationState<T> state);
+
 
 
     @Override
@@ -67,7 +73,20 @@ public abstract class AbstractGuEntity extends TamableAnimal implements GeoEntit
 
     public void setEating(boolean bool){
         this.isEating = bool;
+        eatingAnimationTicks = 30;
     }
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (eatingAnimationTicks > 0) {
+            eatingAnimationTicks--;
+            if (eatingAnimationTicks == 0) {
+                setEating(false);
+            }
+        }
+    }
+
 
     public boolean isEating() {
         return this.isEating;

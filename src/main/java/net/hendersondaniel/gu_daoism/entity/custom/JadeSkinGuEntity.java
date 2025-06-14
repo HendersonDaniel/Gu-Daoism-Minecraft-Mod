@@ -58,4 +58,12 @@ public class JadeSkinGuEntity extends AbstractGuEntity {
         state.getController().setAnimation(RawAnimation.begin().thenLoop("animation.jade_skin_gu.idle"));
         return PlayState.CONTINUE;
     }
+    @Override
+    protected <T extends GeoAnimatable> PlayState eatPredicate(AnimationState<T> state) {
+        if (this.isEating()) {
+            state.getController().setAnimation(RawAnimation.begin().then("animation.jade_skin_gu.eat", Animation.LoopType.PLAY_ONCE));
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
+    }
 }
