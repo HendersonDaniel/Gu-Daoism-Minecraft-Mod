@@ -1,5 +1,6 @@
 package net.hendersondaniel.gu_daoism.entity.custom;
 
+import net.hendersondaniel.gu_daoism.entity.goal.FleeFromPlayerGoal;
 import net.hendersondaniel.gu_daoism.item.ModItems;
 import net.hendersondaniel.gu_daoism.item.custom.gu_items.AbstractGuItem;
 import net.minecraft.world.entity.EntityType;
@@ -12,7 +13,6 @@ import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-import java.util.function.Supplier;
 
 public class JadeSkinGuEntity extends AbstractGuEntity {
 
@@ -25,7 +25,7 @@ public class JadeSkinGuEntity extends AbstractGuEntity {
                 .add(Attributes.MAX_HEALTH, 4D)
                 .add(Attributes.ATTACK_DAMAGE, 3.0f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.25f).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.4f).build();
     }
 
 
@@ -33,21 +33,15 @@ public class JadeSkinGuEntity extends AbstractGuEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new FloatGoal(this));
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 5.0F, false));
+        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.0D, 6.0F, 5.0F, false));
+        this.goalSelector.addGoal(4,new FleeFromPlayerGoal(this,6.0D,1.0D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         // TODO: Goal to go to food
-        // TODO: flee behavior new goal
         //this.goalSelector.addGoal(12, new LookAtPlayerGoal(this, Player.class, 10.0F));
 
     }
 
-    @Override
-    public void aiStep() {
-        super.aiStep();
-        handleFleeBehavior(6.0);
-
-    }
 
 
     @Override

@@ -16,12 +16,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -165,11 +162,24 @@ public class ModEvents {
 
 
             EntityType<?> guEntityType = abstractGuItem.getEntityType();
-            Entity guEntity = guEntityType.create(level);
+            AbstractGuEntity guEntity = (AbstractGuEntity) guEntityType.create(level);
 
             if(guEntity != null){
+
+                CompoundTag tag = itemEntity.getItem().getOrCreateTag();
+                if (!tag.contains("LastFedTime")) {
+                    tag.putLong("LastFedTime", itemEntity.getLevel().getGameTime());
+                }
+                guEntity.setLastFedTime(tag.getLong("LastFedTime"));
+
+                if(itemEntity.getOwner() != null){
+                    guEntity.setOwnerUUID(itemEntity.getOwner().getUUID());
+                    guEntity.setTame(true);
+                }
+
                 guEntity.setPos(position);
                 level.addFreshEntity(guEntity);
+                itemEntity.discard();
             }
 
             event.setCanceled(true); // prevent gu item from appearing
@@ -200,6 +210,7 @@ public class ModEvents {
 
             // Only run on server side and END phase
             if (player.getLevel().isClientSide() || event.phase != TickEvent.Phase.END) return;
+            if (event.player.getLevel().getGameTime() % 10 != 0) return; // throttle
 
             long currentWorldTime = player.getLevel().getGameTime();
 
@@ -209,9 +220,7 @@ public class ModEvents {
 
 
 
-                if (!(stack.getItem() instanceof AbstractGuItem)) continue;
-
-                AbstractGuItem item = (AbstractGuItem) stack.getItem();
+                if (!(stack.getItem() instanceof AbstractGuItem item)) continue;
 
                 CompoundTag tag = stack.getOrCreateTag();
 
