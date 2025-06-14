@@ -36,7 +36,7 @@
 		},
 		"animation.jade_skin_gu.walk": {
 			"loop": true,
-			"animation_length": 2,
+			"animation_length": 0.5,
 			"bones": {
 				"head": {
 					"position": {

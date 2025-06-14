@@ -27,7 +27,7 @@ public abstract class AbstractGuEntity extends TamableAnimal implements GeoEntit
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final Supplier<? extends AbstractGuItem> itemSupplier;
     private long lastFedTime = 0;
-
+    private boolean isEating = false;
 
     public AbstractGuEntity(EntityType<? extends TamableAnimal> entityType, Level level, Supplier<? extends AbstractGuItem> itemSupplier) {
         super(entityType, level);
@@ -68,16 +68,12 @@ public abstract class AbstractGuEntity extends TamableAnimal implements GeoEntit
         return cache;
     }
 
+    public void setEating(boolean bool){
+        this.isEating = bool;
+    }
 
-    protected void handleFleeBehavior(double range) {
-        if (!isTame()) {
-            Player player = this.getLevel().getNearestPlayer(this, range);
-            if (player != null) {
-                Vec3 fleeDir = this.position().subtract(player.position()).normalize();
-                Vec3 fleePos = this.position().add(fleeDir.scale(5));
-                this.getNavigation().moveTo(fleePos.x, fleePos.y, fleePos.z, 1.2D);
-            }
-        }
+    public boolean isEating() {
+        return this.isEating;
     }
 
 
