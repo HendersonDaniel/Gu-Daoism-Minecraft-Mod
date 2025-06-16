@@ -4,11 +4,13 @@ import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvid
 import net.hendersondaniel.gu_daoism.entity.custom.AbstractGuEntity;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
+import net.hendersondaniel.gu_daoism.sounds.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
@@ -122,7 +124,7 @@ public abstract class AbstractGuItem extends Item {
         super.appendHoverText(stack, level, components, flag);
     }
 
-    protected abstract void runGuEffect(Level level, Player player);
+    protected abstract void runGuEffect(Level level, Player player, int amplifier);
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -136,13 +138,10 @@ public abstract class AbstractGuItem extends Item {
                     ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), (ServerPlayer) player);
 
                     // run logic for gu effect
-                    runGuEffect(level, player);
-                    //TODO: Add sound effect
+                    runGuEffect(level, player, 0); //TODO: change default amplifier of 0 after making gu that amplify
 
                 } else {
-                    player.sendSystemMessage(Component.literal("(F) Current Primeval Essence: " + s.getPrimevalEssence())
-                            .withStyle(ChatFormatting.YELLOW));
-                    //TODO: add sound effect
+                    level.playSound(null, player.blockPosition(),ModSounds.OUT_OF_ESSENCE_SOUND.get(),SoundSource.PLAYERS,0.7F,1.0F);
                 }
             });
         }

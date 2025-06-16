@@ -7,12 +7,14 @@ import net.hendersondaniel.gu_daoism.commands.SetRawStageCommand;
 import net.hendersondaniel.gu_daoism.commands.SetTalentCommand;
 import net.hendersondaniel.gu_daoism.config.ClientConfigs;
 import net.hendersondaniel.gu_daoism.config.CommonConfigs;
+import net.hendersondaniel.gu_daoism.effect.ModEffects;
 import net.hendersondaniel.gu_daoism.entity.ModEntities;
 import net.hendersondaniel.gu_daoism.entity.client.JadeSkinGuEntityRenderer;
 import net.hendersondaniel.gu_daoism.fluid.ModFluidTypes;
 import net.hendersondaniel.gu_daoism.fluid.ModFluids;
 import net.hendersondaniel.gu_daoism.item.ModItems;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
+import net.hendersondaniel.gu_daoism.sounds.ModSounds;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -46,6 +48,9 @@ public class GuDaoism
 
         ModFluids.register(modEventBus);
         ModFluidTypes.register(modEventBus);
+
+        ModSounds.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

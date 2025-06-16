@@ -1,0 +1,14 @@
+{
+  "out_of_essence": {
+    "subtitle": "sounds.gu_daoism.out_of_essence",
+    "sounds": [
+      "gu_daoism:out_of_essence"
+    ]
+  },
+  "jade_skin_gu_sound": {
+    "subtitle": "sounds.gu_daoism.jade_skin_gu_sound",
+    "sounds": [
+      "gu_daoism:jade_skin_gu_sound"
+    ]
+  }
+}
