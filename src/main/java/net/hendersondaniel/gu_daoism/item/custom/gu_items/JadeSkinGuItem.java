@@ -4,6 +4,7 @@ import net.hendersondaniel.gu_daoism.effect.ModEffects;
 import net.hendersondaniel.gu_daoism.entity.ModEntities;
 import net.hendersondaniel.gu_daoism.entity.custom.AbstractGuEntity;
 import net.hendersondaniel.gu_daoism.entity.custom.JadeSkinGuEntity;
+import net.hendersondaniel.gu_daoism.event.custom.PlayerUseGuEvent;
 import net.hendersondaniel.gu_daoism.sounds.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -26,9 +27,10 @@ public class JadeSkinGuItem extends AbstractGuItem {
     }
 
     @Override
-    protected void runGuEffect(Level level, Player player, int amplifier) {
+    protected void runGuEffect(Level level, Player player, PlayerUseGuEvent playerUseGuEvent) {
+        playerUseGuEvent.setAbstractGuItem(this);
         level.playSound(null,player.blockPosition(), ModSounds.JADE_SKIN_GU_SOUND.get(), SoundSource.PLAYERS,1.0F,1.0F);
-        player.addEffect(new MobEffectInstance(ModEffects.JADE_SKIN_GU_EFFECT.get(),20*60,amplifier,false,false,true));
+        player.addEffect(new MobEffectInstance(ModEffects.JADE_SKIN_GU_EFFECT.get(),20*60,playerUseGuEvent.getAmplifier(),false,false,true));
     }
 
 

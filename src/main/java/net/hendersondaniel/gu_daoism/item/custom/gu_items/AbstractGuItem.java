@@ -2,6 +2,7 @@ package net.hendersondaniel.gu_daoism.item.custom.gu_items;
 
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
 import net.hendersondaniel.gu_daoism.entity.custom.AbstractGuEntity;
+import net.hendersondaniel.gu_daoism.event.custom.PlayerUseGuEvent;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.sounds.ModSounds;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -124,7 +126,7 @@ public abstract class AbstractGuItem extends Item {
         super.appendHoverText(stack, level, components, flag);
     }
 
-    protected abstract void runGuEffect(Level level, Player player, int amplifier);
+    protected abstract void runGuEffect(Level level, Player player, PlayerUseGuEvent playerUseGuEvent);
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -137,8 +139,10 @@ public abstract class AbstractGuItem extends Item {
                 if(s.subPrimevalEssence(getPrimevalEssenceCost())){
                     ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), (ServerPlayer) player);
 
-                    // run logic for gu effect
-                    runGuEffect(level, player, 0); //TODO: change default amplifier of 0 after making gu that amplify
+                    PlayerUseGuEvent playerUseGuEvent = new PlayerUseGuEvent(null, player, 0);
+                    if(!MinecraftForge.EVENT_BUS.post(playerUseGuEvent)){
+                        runGuEffect(level, player, playerUseGuEvent);
+                    }
 
                 } else {
                     level.playSound(null, player.blockPosition(),ModSounds.OUT_OF_ESSENCE_SOUND.get(),SoundSource.PLAYERS,0.7F,1.0F);
