@@ -9,19 +9,16 @@ import net.hendersondaniel.gu_daoism.client.PrimevalEssenceHudOverlay;
 import net.hendersondaniel.gu_daoism.client.SkinRenderLayer;
 import net.hendersondaniel.gu_daoism.effect.ModEffects;
 import net.hendersondaniel.gu_daoism.keybindings.ModKeyBindings;
+import net.hendersondaniel.gu_daoism.networking.ModMessages;
+import net.hendersondaniel.gu_daoism.networking.packet.CultivationC2SPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -43,6 +40,28 @@ public class ClientEvents {
                 }
             }
         }
+
+        private static boolean wasCultivatingKeyDown = false;
+        @SubscribeEvent
+        public static void onClientTick(TickEvent.ClientTickEvent event) {
+            if (event.phase != TickEvent.Phase.END) return;
+            if (Minecraft.getInstance().player == null) return;
+
+            boolean isDown = ModKeyBindings.KEY_CULTIVATE_APERTURE.isDown();
+
+            if (isDown && !wasCultivatingKeyDown) {
+                // Key just pressed
+                ModMessages.sendToServer(new CultivationC2SPacket(true));
+            }
+
+            if (!isDown && wasCultivatingKeyDown) {
+                // Key just released
+                ModMessages.sendToServer(new CultivationC2SPacket(false));
+            }
+
+            wasCultivatingKeyDown = isDown;
+        }
+
     }
 
     @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -61,11 +80,11 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent event) {
             event.register(ModKeyBindings.KEY_OPEN_APERTURE_SCREEN);
+            event.register(ModKeyBindings.KEY_CULTIVATE_APERTURE);
         }
 
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-//            event.registerAboveAll("aperture", PrimevalEssenceHudOverlay.HUD_APERTURE);
             event.registerAbove(ResourceLocation.fromNamespaceAndPath("minecraft","hotbar"),"aperture",PrimevalEssenceHudOverlay.HUD_APERTURE);
         }
 

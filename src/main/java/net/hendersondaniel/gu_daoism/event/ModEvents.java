@@ -8,11 +8,15 @@ import net.hendersondaniel.gu_daoism.entity.custom.AbstractGuEntity;
 import net.hendersondaniel.gu_daoism.entity.custom.JadeSkinGuEntity;
 import net.hendersondaniel.gu_daoism.item.custom.gu_items.AbstractGuItem;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
+import net.hendersondaniel.gu_daoism.networking.packet.CultivationSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.TalentSyncS2CPacket;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -35,8 +39,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -44,10 +47,6 @@ import java.util.concurrent.TimeUnit;
 import static net.hendersondaniel.gu_daoism.item.custom.interactables.GamblingRockItem.createGamblingRockWithNBT;
 
 public class ModEvents {
-
-    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private static final Set<ServerPlayer> trackedPlayers = new HashSet<>();
-
 
     @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistrationEvents {
@@ -59,6 +58,28 @@ public class ModEvents {
 
     @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID)
     public static class ForgeEvents {
+        private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        private static final Set<ServerPlayer> trackedPlayers = new HashSet<>();
+        private static final Map<UUID, Vec3> cultivatingPlayers = new HashMap<>();
+
+        private static boolean positionsAreClose(Vec3 a, Vec3 b) {
+            // Allow small movements
+            double threshold = 0.05;
+            return a.distanceToSqr(b) < threshold * threshold;
+        }
+
+        public static void startCultivating(ServerPlayer player) {
+            cultivatingPlayers.put(player.getUUID(), player.position());
+        }
+
+        public static void stopCultivating(ServerPlayer player) {
+            cultivatingPlayers.remove(player.getUUID());
+        }
+
+        public static boolean isCultivating(ServerPlayer player) {
+            return cultivatingPlayers.containsKey(player.getUUID());
+        }
+
 
         @SubscribeEvent
         public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
@@ -100,6 +121,7 @@ public class ModEvents {
                         ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), player);
                         ModMessages.sendToPlayer(new RawStageSyncS2CPacket(s.getRawStage()),player);
                         ModMessages.sendToPlayer(new TalentSyncS2CPacket(s.getTalent()),player);
+                        ModMessages.sendToPlayer(new CultivationSyncS2CPacket(s.getCultivationProgress()),player);
                     });
                 }
             }
@@ -204,6 +226,8 @@ public class ModEvents {
             }
         }
 
+
+        // Starvation logic
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             Player player = event.player;
@@ -241,5 +265,46 @@ public class ModEvents {
                 }
             }
         }
+
+
+
+        // Cultivation logic
+        @SubscribeEvent
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            if (event.phase != TickEvent.Phase.START) return;
+
+            MinecraftServer server = event.getServer();
+            if (server == null) return;
+            if(server.getTickCount() % 20 != 0) return;
+
+            for (ServerLevel level : server.getAllLevels()) {
+                for (ServerPlayer player : level.players()) {
+                    UUID uuid = player.getUUID();
+
+                    if (cultivatingPlayers.containsKey(uuid)) {
+                        Vec3 startPos = cultivatingPlayers.get(uuid);
+                        Vec3 currentPos = player.position();
+
+                        // Check if player has moved significantly
+                        if (!positionsAreClose(startPos, currentPos)) {
+                            cultivatingPlayers.remove(uuid);
+                            player.sendSystemMessage(Component.literal("You moved! Cultivation interrupted.")); //TODO: remove this and make it a sound
+                            continue;
+                        }
+
+                        player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
+                            s.addCultivationProgress(1);
+                            s.subPrimevalEssence(1*Math.pow(2,s.getRawStage()));
+
+                            ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), player);
+                            ModMessages.sendToPlayer(new RawStageSyncS2CPacket(s.getRawStage()),player);
+                            ModMessages.sendToPlayer(new CultivationSyncS2CPacket(s.getCultivationProgress()),player);
+                        });
+                    }
+                }
+            }
+        }
+
+
     }
 }

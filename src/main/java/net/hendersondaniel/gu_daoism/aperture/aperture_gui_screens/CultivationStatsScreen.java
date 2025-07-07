@@ -40,10 +40,6 @@ public class CultivationStatsScreen extends Screen {
 
     }
 
-    private void handleExampleButton(Button button) {
-        // logic here
-    }
-
     @Override
     public boolean isPauseScreen() {
         return false;
@@ -88,7 +84,7 @@ public class CultivationStatsScreen extends Screen {
                 0x404040);
 
         font.draw(poseStack,
-                Component.literal("Progress: " + playerStats.getCultivationProgress() + "/" + Math.ceil(500*Math.pow(1.5,playerStats.getRawStage()))),
+                Component.literal("Progress: " + totalProgressToStageProgress(playerStats.getCultivationProgress(), playerStats.getRawStage())),
                 leftPos + 20, topPos + 60,
                 0x404040);
 

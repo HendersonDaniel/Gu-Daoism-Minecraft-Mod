@@ -8,7 +8,6 @@ public class PlayerStats {
     private double attackBuff = 0.0;
     private double defenseBuff = 0.0;
     private int cultivationProgress = 0;
-    private int rawStage = 0;
 
 
     public void copyFrom(PlayerStats source) {
@@ -17,7 +16,6 @@ public class PlayerStats {
         this.attackBuff = source.getAttackBuff();
         this.defenseBuff = source.getDefenseBuff();
         this.cultivationProgress = source.getCultivationProgress();
-        this.rawStage=source.getRawStage();
     }
 
     public void setTalent(int talent) {
@@ -32,10 +30,10 @@ public class PlayerStats {
 
     public void addCultivationProgress(int progress){
         cultivationProgress += progress;
-        if(cultivationProgress >= 500*Math.pow(1.5,rawStage)){
-            rawStage++;
-            cultivationProgress=0;
-        }
+    }
+
+    public void setCultivationProgress(int progress){
+        this.cultivationProgress = progress;
     }
 
     public int getCultivationProgress() {
@@ -44,12 +42,25 @@ public class PlayerStats {
 
 
     public void setRawStage(int rawStage) {
-        this.rawStage = rawStage;
+        double total = 0;
+        for (int i = 0; i < rawStage; i++) {
+            total += 500 * Math.pow(1.5, i);
+        }
+        cultivationProgress = (int) Math.round(total);
     }
 
-
     public int getRawStage() {
-        return rawStage;
+        double total = 0;
+        int stage = 0;
+        while (true) {
+            double cost = 500 * Math.pow(1.5, stage);
+            if (cultivationProgress < total + cost) {
+                break;
+            }
+            total += cost;
+            stage++;
+        }
+        return stage;
     }
 
 
@@ -70,7 +81,7 @@ public class PlayerStats {
     }
 
     public double getMaxPrimevalEssence() {
-        return talent*Math.pow(2,rawStage);
+        return talent*Math.pow(2,getRawStage());
     }
 
     public double getPrimevalEssence() {
@@ -100,7 +111,6 @@ public class PlayerStats {
     public void saveNBTData(CompoundTag nbt) {
         nbt.putInt("Talent", talent);
         nbt.putDouble("PrimevalEssence",primevalEssence);
-        nbt.putInt("RawStage",rawStage);
         nbt.putInt("CultivationProgress",cultivationProgress);
         nbt.putDouble("AttackBuff",attackBuff);
         nbt.putDouble("DefenseBuff",defenseBuff);
@@ -112,7 +122,6 @@ public class PlayerStats {
     public void loadNBTData(CompoundTag nbt) {
         talent = nbt.getInt("Talent");
         primevalEssence = nbt.getDouble("PrimevalEssence");
-        rawStage = nbt.getInt("RawStage");
         cultivationProgress = nbt.getInt("CultivationProgress");
         attackBuff = nbt.getDouble("AttackBuff");
         defenseBuff = nbt.getDouble("DefenseBuff");

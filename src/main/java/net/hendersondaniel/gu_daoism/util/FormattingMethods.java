@@ -2,6 +2,19 @@ package net.hendersondaniel.gu_daoism.util;
 
 public class FormattingMethods {
 
+    public static String totalProgressToStageProgress(int progress, int rawStage){
+        double start = 0;
+        for (int i = 0; i < rawStage; i++) {
+            start += 500 * Math.pow(1.5, i);
+        }
+
+        double end = start + 500 * Math.pow(1.5, rawStage);
+        double stageProgress = progress - start;
+        double stageTotal = end - start;
+
+        return (int) Math.round(stageProgress) + "/" + (int) Math.ceil(stageTotal);
+
+    }
 
     public static String formatTicksToTime(long ticks) {
         long totalSeconds = ticks / 20;  // Convert ticks to seconds

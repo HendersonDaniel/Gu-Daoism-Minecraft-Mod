@@ -26,6 +26,7 @@ public class PrimevalEssenceSyncS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             // on the client
+            if(Minecraft.getInstance().player == null) return;
             Minecraft.getInstance().player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
                 cap.setPrimevalEssence(primevalEssence);
             });

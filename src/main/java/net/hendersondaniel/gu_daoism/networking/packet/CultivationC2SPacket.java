@@ -1,29 +1,27 @@
 package net.hendersondaniel.gu_daoism.networking.packet;
 
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
-import net.hendersondaniel.gu_daoism.networking.ModMessages;
-import net.minecraft.ChatFormatting;
+import net.hendersondaniel.gu_daoism.event.ModEvents;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PrimevalEssenceC2SPacket {
+public class CultivationC2SPacket {
 
-    private double primevalEssence = 0; //amount you are subtracting
+    private boolean isCultivating = false;
 
-    public PrimevalEssenceC2SPacket(int primevalEssence){
-        this.primevalEssence = primevalEssence;
+    public CultivationC2SPacket(boolean isCultivating){
+        this.isCultivating = isCultivating;
     }
-    public PrimevalEssenceC2SPacket(FriendlyByteBuf buf){
-        this.primevalEssence = buf.readDouble();
+    public CultivationC2SPacket(FriendlyByteBuf buf){
+        this.isCultivating = buf.readBoolean();
     }
 
     public void toBytes(FriendlyByteBuf buf){
-        buf.writeDouble(primevalEssence);
+        buf.writeBoolean(isCultivating);
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier){
@@ -31,19 +29,23 @@ public class PrimevalEssenceC2SPacket {
         context.enqueueWork(() -> {
             // on the server
             ServerPlayer player = context.getSender();
-            assert player != null;
-            ServerLevel level = player.getLevel();
-
+            if(player == null) return;
 
             player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
-                s.subPrimevalEssence(primevalEssence);
-                ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), player);
+
+                if(isCultivating){
+                    ModEvents.ForgeEvents.startCultivating(player);
+                } else {
+                    ModEvents.ForgeEvents.stopCultivating(player);
+                }
+
+
+
             });
 
 
         });
         supplier.get().setPacketHandled(true);
     }
-
 
 }

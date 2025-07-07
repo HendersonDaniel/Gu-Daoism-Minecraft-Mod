@@ -7,19 +7,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class RawStageSyncS2CPacket {
+public class CultivationSyncS2CPacket {
 
-    private int rawStage = 0;
+    private int cultivationProgress = 0; //total progress
 
-    public RawStageSyncS2CPacket(int rawStage){
-        this.rawStage = rawStage;
+    public CultivationSyncS2CPacket(int cultivationProgress){
+        this.cultivationProgress = cultivationProgress;
     }
-    public RawStageSyncS2CPacket(FriendlyByteBuf buf){
-        this.rawStage = buf.readInt();
+    public CultivationSyncS2CPacket(FriendlyByteBuf buf){
+        this.cultivationProgress = buf.readInt();
     }
 
     public void toBytes(FriendlyByteBuf buf){
-        buf.writeInt(rawStage);
+        buf.writeInt(cultivationProgress);
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier){
@@ -28,12 +28,11 @@ public class RawStageSyncS2CPacket {
             // on the client
             if(Minecraft.getInstance().player == null) return;
             Minecraft.getInstance().player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
-                cap.setRawStage(rawStage);
+                cap.setCultivationProgress(cultivationProgress);
             });
 
 
         });
         supplier.get().setPacketHandled(true);
     }
-
 }
