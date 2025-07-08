@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID)
-public class ModEffectEvents {
+public class GuEffectEvents {
 
     @SubscribeEvent
     public static void applyDefenseGuEffects(LivingHurtEvent event) {

@@ -1,7 +1,8 @@
-package net.hendersondaniel.gu_daoism.fluid;
+package net.hendersondaniel.gu_daoism.event;
 
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
+import net.hendersondaniel.gu_daoism.fluid.ModFluidTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -12,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class FluidInteractionHandler {
+public class FluidInteractionEvents {
 
     private static final FluidType PRIMEVAL_ESSENCE_FLUID_TYPE = ModFluidTypes.PRIMEVAL_ESSENCE_FLUID_TYPE.get();
     private static final int CHECK_INTERVAL = 15;

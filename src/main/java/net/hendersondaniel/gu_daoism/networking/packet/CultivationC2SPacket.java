@@ -1,13 +1,14 @@
 package net.hendersondaniel.gu_daoism.networking.packet;
 
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
-import net.hendersondaniel.gu_daoism.event.ModEvents;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+
+import static net.hendersondaniel.gu_daoism.event.CultivationEvents.startCultivating;
+import static net.hendersondaniel.gu_daoism.event.CultivationEvents.stopCultivating;
 
 public class CultivationC2SPacket {
 
@@ -34,9 +35,9 @@ public class CultivationC2SPacket {
             player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
 
                 if(isCultivating){
-                    ModEvents.ForgeEvents.startCultivating(player);
+                    startCultivating(player);
                 } else {
-                    ModEvents.ForgeEvents.stopCultivating(player);
+                    stopCultivating(player);
                 }
 
 

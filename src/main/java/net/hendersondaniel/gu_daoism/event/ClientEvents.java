@@ -1,13 +1,10 @@
 package net.hendersondaniel.gu_daoism.event;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.aperture_gui_screens.CultivationStatsScreen;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
 import net.hendersondaniel.gu_daoism.client.PrimevalEssenceHudOverlay;
 import net.hendersondaniel.gu_daoism.client.SkinRenderLayer;
-import net.hendersondaniel.gu_daoism.effect.ModEffects;
 import net.hendersondaniel.gu_daoism.keybindings.ModKeyBindings;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
 import net.hendersondaniel.gu_daoism.networking.packet.CultivationC2SPacket;
@@ -28,6 +25,8 @@ public class ClientEvents {
 
     @Mod.EventBusSubscriber(modid = GuDaoism.MOD_ID, value = Dist.CLIENT)
     public static class ClientForgeEvents {
+        private static boolean wasCultivatingKeyDown = false;
+
         @SubscribeEvent
         public static void onKeyInput(InputEvent.Key event) {
             if (ModKeyBindings.KEY_OPEN_APERTURE_SCREEN.consumeClick()) {
@@ -41,7 +40,6 @@ public class ClientEvents {
             }
         }
 
-        private static boolean wasCultivatingKeyDown = false;
         @SubscribeEvent
         public static void onClientTick(TickEvent.ClientTickEvent event) {
             if (event.phase != TickEvent.Phase.END) return;
