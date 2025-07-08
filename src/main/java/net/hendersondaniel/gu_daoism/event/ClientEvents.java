@@ -35,6 +35,7 @@ public class ClientEvents {
 
                     player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
                         Minecraft.getInstance().setScreen(new CultivationStatsScreen(cap));
+                        //TODO: add sound effect?
                     });
                 }
             }

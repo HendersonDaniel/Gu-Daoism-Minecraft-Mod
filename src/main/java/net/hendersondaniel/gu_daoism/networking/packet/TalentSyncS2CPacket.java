@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class TalentSyncS2CPacket {
 
-    private int talent = 0;
+    private final int talent;
 
     public TalentSyncS2CPacket(int talent){
         this.talent = talent;
@@ -26,10 +26,10 @@ public class TalentSyncS2CPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             // on the client
+            if (Minecraft.getInstance().player == null) return;
             Minecraft.getInstance().player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
                 cap.setTalent(talent);
             });
-
 
         });
         supplier.get().setPacketHandled(true);

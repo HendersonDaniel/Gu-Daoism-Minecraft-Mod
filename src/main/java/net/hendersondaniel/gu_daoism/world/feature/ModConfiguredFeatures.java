@@ -22,6 +22,7 @@ public class ModConfiguredFeatures {
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
+        //noinspection deprecation
         register(context, SPIRIT_SPRING_KEY, Feature.LAKE, new LakeFeature.Configuration(
                 BlockStateProvider.simple(ModFluids.SOURCE_PRIMEVAL_ESSENCE_LIQUID.get().defaultFluidState().createLegacyBlock()),
                 BlockStateProvider.simple(Blocks.STONE.defaultBlockState()))

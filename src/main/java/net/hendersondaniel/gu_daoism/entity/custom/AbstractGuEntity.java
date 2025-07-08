@@ -60,6 +60,7 @@ public abstract class AbstractGuEntity extends TamableAnimal implements GeoEntit
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
         controllerRegistrar.add(new AnimationController<>(this, "eat_controller", 2,this::eatPredicate));
     }
+    @SuppressWarnings("SameReturnValue")
     protected abstract <T extends GeoAnimatable> PlayState predicate(AnimationState<T> state);
 
     protected abstract <T extends GeoAnimatable> PlayState eatPredicate(AnimationState<T> state);

@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class CultivationSyncS2CPacket {
 
-    private int cultivationProgress = 0; //total progress
+    private final int cultivationProgress; //total progress
 
     public CultivationSyncS2CPacket(int cultivationProgress){
         this.cultivationProgress = cultivationProgress;
@@ -29,6 +29,7 @@ public class CultivationSyncS2CPacket {
             if(Minecraft.getInstance().player == null) return;
             Minecraft.getInstance().player.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(cap -> {
                 cap.setCultivationProgress(cultivationProgress);
+                // TODO: check if breakthrough and provide sound and particle effects
             });
 
 

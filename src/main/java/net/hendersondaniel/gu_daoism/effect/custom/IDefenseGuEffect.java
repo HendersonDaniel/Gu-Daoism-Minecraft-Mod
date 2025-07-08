@@ -15,7 +15,7 @@ public interface IDefenseGuEffect {
      * @param amplifier The amplifier level of the effect (0 = base level)
      * @return true if the damage source should be completely negated
      */
-    public default boolean isBypassed(DamageSource source, int amplifier, Set<ResourceKey<DamageType>> bypassSources) {
+    default boolean isBypassed(DamageSource source, int amplifier, Set<ResourceKey<DamageType>> bypassSources) {
         for(ResourceKey<DamageType> s : bypassSources) {
             if(source.is(s)){
                 return true;
@@ -65,13 +65,13 @@ public interface IDefenseGuEffect {
     default void onDamageReduced(LivingEntity entity, DamageSource source, float reducedAmount) {
     }
 
-    public enum DamageReductionType {
+    enum DamageReductionType {
         FLAT,       // Reduces damage by a fixed amount
         PERCENTAGE, // Reduces damage by a percentage
         HYBRID      // First applies percentage, then flat reduction
     }
 
-    public enum ApplicationOrder {
+    enum ApplicationOrder {
         PRE_ARMOR,  // Applied before armor calculations
         POST_ARMOR  // Applied after armor calculations
     }

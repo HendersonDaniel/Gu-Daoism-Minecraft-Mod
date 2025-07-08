@@ -29,18 +29,12 @@ public class ModMessages {
         );
 
         // Registering messages
-        //INSTANCE.registerMessage(id(), OpenApertureC2SPacket.class, OpenApertureC2SPacket::toBytes, OpenApertureC2SPacket::new, OpenApertureC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), PrimevalEssenceC2SPacket.class, PrimevalEssenceC2SPacket::toBytes, PrimevalEssenceC2SPacket::new, PrimevalEssenceC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), PrimevalEssenceSyncS2CPacket.class, PrimevalEssenceSyncS2CPacket::toBytes, PrimevalEssenceSyncS2CPacket::new, PrimevalEssenceSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         INSTANCE.registerMessage(id(), RawStageSyncS2CPacket.class, RawStageSyncS2CPacket::toBytes, RawStageSyncS2CPacket::new, RawStageSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         INSTANCE.registerMessage(id(), TalentSyncS2CPacket.class, TalentSyncS2CPacket::toBytes, TalentSyncS2CPacket::new, TalentSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         INSTANCE.registerMessage(id(), CultivationC2SPacket.class, CultivationC2SPacket::toBytes, CultivationC2SPacket::new, CultivationC2SPacket::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         INSTANCE.registerMessage(id(), CultivationSyncS2CPacket.class, CultivationSyncS2CPacket::toBytes, CultivationSyncS2CPacket::new, CultivationSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-
-
-//        INSTANCE.registerMessage(id(), EnergySyncS2CPacket.class, EnergySyncS2CPacket::toBytes, EnergySyncS2CPacket::new, EnergySyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-//        INSTANCE.registerMessage(id(), FluidSyncS2CPacket.class, FluidSyncS2CPacket::toBytes, FluidSyncS2CPacket::new, FluidSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-//        INSTANCE.registerMessage(id(), ItemStackSyncS2CPacket.class, ItemStackSyncS2CPacket::toBytes, ItemStackSyncS2CPacket::new, ItemStackSyncS2CPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
      }
 

@@ -12,7 +12,7 @@ import static net.hendersondaniel.gu_daoism.event.CultivationEvents.stopCultivat
 
 public class CultivationC2SPacket {
 
-    private boolean isCultivating = false;
+    private final boolean isCultivating;
 
     public CultivationC2SPacket(boolean isCultivating){
         this.isCultivating = isCultivating;

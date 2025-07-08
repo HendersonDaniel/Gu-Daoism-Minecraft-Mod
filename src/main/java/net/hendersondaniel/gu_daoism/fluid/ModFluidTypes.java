@@ -27,10 +27,7 @@ public class ModFluidTypes {
         return FLUID_TYPES.register(name, () -> new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, PRIMEVAL_ESSENCE_FLUID_OVERLAY_RL,
                 0xFFA6FCF6, new Vector3f(166f / 255f, 252f / 255f, 246f / 255f), properties));
     }
-//    private static RegistryObject<FluidType> register(String name, FluidType.Properties properties) {
-//        return FLUID_TYPES.register(name, () -> new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, PRIMEVAL_ESSENCE_FLUID_OVERLAY_RL,
-//                0xFFFFFFFF, new Vector3f(255f / 255f, 255f / 255f, 255f / 255f), properties));
-//    }
+
 
     public static void register(IEventBus eventBus) {
         FLUID_TYPES.register(eventBus);
