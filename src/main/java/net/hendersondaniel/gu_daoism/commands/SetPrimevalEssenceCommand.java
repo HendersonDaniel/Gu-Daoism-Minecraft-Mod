@@ -14,6 +14,10 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static net.hendersondaniel.gu_daoism.util.CalculationMethods.clampPrimevalEssence;
+
 public class SetPrimevalEssenceCommand {
 
 
@@ -30,13 +34,20 @@ public class SetPrimevalEssenceCommand {
     public static int setPrimevalEssenceC(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         ServerPlayer target = EntityArgument.getPlayer(ctx, "target");
         int e = IntegerArgumentType.getInteger(ctx, "primeval_essence");
+        AtomicBoolean isClamped = new AtomicBoolean(false);
 
         target.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
             s.setPrimevalEssence(e);
+            isClamped.set(clampPrimevalEssence(s));
+
             ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), target);
         });
 
-        ctx.getSource().sendSuccess(Component.literal("Set primeval essence to " + e + " for " + target.getName().getString()), true);
+        if(isClamped.get()){
+            ctx.getSource().sendSuccess(Component.literal("Argument 'primeval_essence' exceeds player max. Set primeval essence to player max for " + target.getName().getString()), true);
+        } else {
+            ctx.getSource().sendSuccess(Component.literal("Set primeval essence to " + e + " for " + target.getName().getString()), true);
+        }
 
         return 1;
     }

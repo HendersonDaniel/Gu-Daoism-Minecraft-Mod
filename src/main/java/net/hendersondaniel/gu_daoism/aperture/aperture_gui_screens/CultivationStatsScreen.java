@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStats;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -87,6 +86,11 @@ public class CultivationStatsScreen extends Screen {
                 Component.literal("Progress: " + totalProgressToStageProgress(playerStats.getCultivationProgress(), playerStats.getRawStage())),
                 leftPos + 20, topPos + 60,
                 0x404040);
+//
+//        font.draw(poseStack,
+//                Component.literal("Essence: " + (int) playerStats.getPrimevalEssence() + "/" + (int) playerStats.getMaxPrimevalEssence()),
+//                leftPos + 20, topPos + 70,
+//                0x404040);
 
 
         renderAperture(poseStack);

@@ -54,7 +54,7 @@ public class PlayerStats {
         int stage = 0;
         while (true) {
             double cost = 500 * Math.pow(1.5, stage);
-            if (cultivationProgress < total + cost) {
+            if (Math.round(total + cost) > cultivationProgress) {
                 break;
             }
             total += cost;

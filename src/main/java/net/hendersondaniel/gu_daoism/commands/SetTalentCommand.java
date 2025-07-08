@@ -7,13 +7,15 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.hendersondaniel.gu_daoism.GuDaoism;
 import net.hendersondaniel.gu_daoism.aperture.primeval_essence.PlayerStatsProvider;
 import net.hendersondaniel.gu_daoism.networking.ModMessages;
-import net.hendersondaniel.gu_daoism.networking.packet.RawStageSyncS2CPacket;
+import net.hendersondaniel.gu_daoism.networking.packet.PrimevalEssenceSyncS2CPacket;
 import net.hendersondaniel.gu_daoism.networking.packet.TalentSyncS2CPacket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+
+import static net.hendersondaniel.gu_daoism.util.CalculationMethods.clampPrimevalEssence;
 
 public class SetTalentCommand {
 
@@ -33,6 +35,9 @@ public class SetTalentCommand {
 
         target.getCapability(PlayerStatsProvider.PLAYER_STATS).ifPresent(s -> {
             s.setTalent(t);
+            clampPrimevalEssence(s);
+
+            ModMessages.sendToPlayer(new PrimevalEssenceSyncS2CPacket(s.getPrimevalEssence()), target);
             ModMessages.sendToPlayer(new TalentSyncS2CPacket(s.getTalent()), target);
         });
 
